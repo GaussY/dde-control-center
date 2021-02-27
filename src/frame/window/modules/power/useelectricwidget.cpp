@@ -86,7 +86,9 @@ UseElectricWidget::UseElectricWidget(PowerModel *model, QWidget *parent)
     }
 
     QStringList options;
-    options << tr("Shut down");
+    if (model->getShutdown()) {
+        options << tr("Shut down");
+    }
     if (model->getSuspend()) {
         options << tr("Suspend");
     }

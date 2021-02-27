@@ -48,6 +48,7 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
     GSettingWatcher::instance()->bind("mouseLeftHand", m_leftHand);  // 使用GSettings来控制显示状态
     //~ contents_path /mouse/General
     m_disInTyping = new SwitchWidget(tr("Disable touchpad while typing"));
+    GSettingWatcher::instance()->bind("mouseTouchpad", m_disInTyping);
     //~ contents_path /mouse/General
     m_scrollSpeedSlider = new TitledSliderItem(tr("Scrolling Speed"));
     //~ contents_path /mouse/General
@@ -103,7 +104,8 @@ GeneralSettingWidget::GeneralSettingWidget(QWidget *parent)
 
 GeneralSettingWidget::~GeneralSettingWidget()
 {
-    GSettingWatcher::instance()->erase("mouseLeftHand");
+    GSettingWatcher::instance()->erase("mouseLeftHand", m_leftHand);
+    GSettingWatcher::instance()->erase("mouseTouchpad", m_disInTyping);
 }
 
 void GeneralSettingWidget::setModel(dcc::mouse::MouseModel *const model)

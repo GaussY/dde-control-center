@@ -23,6 +23,8 @@
 #include "widgets/dccslider.h"
 #include "widgets/titlelabel.h"
 #include "widgets/titledslideritem.h"
+#include "window/gsettingwatcher.h"
+
 #include <DFontSizeManager>
 
 using namespace dcc::widgets;
@@ -54,7 +56,18 @@ SecondaryScreenDialog::SecondaryScreenDialog(QWidget *parent)
     m_contentLayout->addWidget(m_refreshRateWidget);
     m_contentLayout->addWidget(m_rotateWidget);
 
+    GSettingWatcher::instance()->bind("displayResolution", m_resolutionWidget);
+    GSettingWatcher::instance()->bind("displayRefreshRate", m_refreshRateWidget);
+    GSettingWatcher::instance()->bind("displayRotate", m_rotateWidget);
+
     setLayout(m_contentLayout);
+}
+
+SecondaryScreenDialog::~SecondaryScreenDialog()
+{
+    GSettingWatcher::instance()->erase("displayResolution", m_resolutionWidget);
+    GSettingWatcher::instance()->erase("displayRefreshRate", m_refreshRateWidget);
+    GSettingWatcher::instance()->erase("displayRotate", m_rotateWidget);
 }
 
 void SecondaryScreenDialog::setModel(DisplayModel *model, dcc::display::Monitor *monitor)
