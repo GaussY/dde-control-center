@@ -72,7 +72,7 @@ class AccountsDetailWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit AccountsDetailWidget(dcc::accounts::User *user, QWidget *parent = nullptr);
+    explicit AccountsDetailWidget(dcc::accounts::User *user, dcc::accounts::UserModel *model, QWidget *parent = nullptr);
     void initHeadPart(QVBoxLayout *headLayout);
     void initBodyPart(QVBoxLayout *bodyLayout);
     void setAccountModel(dcc::accounts::UserModel *model);
@@ -107,6 +107,9 @@ protected:
     void initGroups(QVBoxLayout *layout);
     bool eventFilter(QObject *obj, QEvent *event) override;
     void resizeEvent(QResizeEvent *event);
+
+private:
+    int getLoginUserType();
 
 private Q_SLOTS:
     void deleteUserClicked();

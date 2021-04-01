@@ -131,6 +131,11 @@ QStringList UserModel::getPresetGroups()
     return m_presetGroups;
 }
 
+void UserModel::setCurrentUserName(const QString &currentUserName)
+{
+    m_currentUserName = currentUserName;
+}
+
 #ifdef DCC_ENABLE_ADDOMAIN
 void UserModel::setIsJoinADDomain(bool isJoinADDomain)
 {

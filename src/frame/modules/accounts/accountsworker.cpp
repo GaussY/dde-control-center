@@ -103,6 +103,7 @@ AccountsWorker::AccountsWorker(UserModel *userList, QObject *parent)
 
     bool bShowCreateUser = valueByQSettings<bool>(DCC_CONFIG_FILES, "", "showCreateUser", true);
     m_userModel->setCreateUserValid(bShowCreateUser);
+    m_userModel->setCurrentUserName(m_currentUserName);
 }
 
 void AccountsWorker::getAllGroups()

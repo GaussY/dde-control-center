@@ -156,9 +156,8 @@ QStringList AccountsModule::availPage() const
 //显示账户信息
 void AccountsModule::onShowAccountsDetailWidget(User *account)
 {
-    AccountsDetailWidget *w = new AccountsDetailWidget(account);
+    AccountsDetailWidget *w = new AccountsDetailWidget(account, m_userModel);
     w->setVisible(false);
-    w->setAccountModel(m_userModel);
     m_fingerWorker->refreshUserEnrollList(account->name());
     w->setFingerModel(m_fingerModel);
 

@@ -52,9 +52,10 @@ using namespace dcc::accounts;
 using namespace dcc::widgets;
 using namespace DCC_NAMESPACE::accounts;
 
-AccountsDetailWidget::AccountsDetailWidget(User *user, QWidget *parent)
+AccountsDetailWidget::AccountsDetailWidget(User *user, UserModel *model, QWidget *parent)
     : QWidget(parent)
     , m_curUser(user)
+    , m_userModel(model)
     , m_groupListView(nullptr)
     , m_groupItemModel(nullptr)
     , m_avatarLayout(new QHBoxLayout)
@@ -99,6 +100,7 @@ AccountsDetailWidget::AccountsDetailWidget(User *user, QWidget *parent)
     if (m_isServerSystem) {
         initGroups(contentLayout);
     }
+    setAccountModel(m_userModel);
 }
 
 void AccountsDetailWidget::setFingerModel(FingerModel *model)
@@ -416,9 +418,9 @@ void AccountsDetailWidget::initSetting(QVBoxLayout *layout)
     m_nopasswdLogin->setChecked(m_curUser->nopasswdLogin());
 
     //当前用户禁止使用删除按钮
-    m_deleteAccount->setEnabled(!isCurUser && !m_curUser->online());
+    m_deleteAccount->setEnabled(!isCurUser && !m_curUser->online() && getLoginUserType() == 1);
     connect(m_curUser, &User::onlineChanged, m_deleteAccount, [ = ](const bool online) {
-        m_deleteAccount->setEnabled(!online && !m_curUser->isCurrentUser());
+        m_deleteAccount->setEnabled(!online && !m_curUser->isCurrentUser() && getLoginUserType() == 1);
     });
 
     //修改密码
@@ -489,7 +491,6 @@ void AccountsDetailWidget::setAccountModel(dcc::accounts::UserModel *model)
     if (!model) {
         return;
     }
-    m_userModel = model;
     m_autoLogin->setVisible(m_userModel->isAutoLoginVisable());
     m_nopasswdLogin->setVisible(m_userModel->isNoPassWordLoginVisable());
 
@@ -550,6 +551,17 @@ void AccountsDetailWidget::resizeEvent(QResizeEvent *event)
         w = (event->size().width() - 20) % 94;
     }
     m_avatarLayout->setContentsMargins(w / 2 - 1, 0, 0, 0);
+}
+
+int AccountsDetailWidget::getLoginUserType()
+{
+    for(auto user : m_userModel->userList()) {
+        if (user->name() == m_userModel->getCurrentUserName()) {
+            return user->userType();
+        }
+    }
+
+    return 0;
 }
 
 void AccountsDetailWidget::setAllGroups()
