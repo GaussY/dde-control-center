@@ -1,0 +1,5 @@
+deb http://pools.uniontech.com/desktop-professional/ eagle main contrib non-free
+deb http://pools.uniontech.com/ppa/dde-eagle unstable main contrib non-free
+deb [trusted=yes] http://aptly.uniontech.com/pkg/uos-exprimental/commit unstable main
+deb [trusted=yes] http://aptly.uniontech.com/pkg/eagle-1040/release-candidate/W0RERV1wYW3lr4bnoIHop4TliJnnu5-kuIDogZTosIMtMjAyMTAyMDEyMDIxLTAyLTAx unstable main
+

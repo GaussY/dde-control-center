@@ -18,27 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "modules/accounts/accountsmodule.h"
-#include "modules/bluetooth/bluetoothmodule.h"
-#include "modules/commoninfo/commoninfomodule.h"
-#include "modules/datetime/datetimemodule.h"
-#include "modules/defapp/defaultappsmodule.h"
-#include "modules/keyboard/keyboardmodule.h"
-#include "modules/power/powermodule.h"
-#include "modules/unionid/unionidmodule.h"
-#include "modules/sound/soundmodule.h"
-#include "modules/update/updatemodule.h"
-#include "modules/mouse/mousemodule.h"
-#include "modules/wacom/wacommodule.h"
-#include "modules/display/displaymodule.h"
-#include "modules/touchscreen/touchscreenmodule.h"
-#include "modules/personalization/personalizationmodule.h"
-#include "modules/sync/syncmodule.h"
-#include "modules/notification/notificationmodule.h"
-#include "modules/systeminfo/systeminfomodule.h"
-#include "modules/network/networkmodule.h"
-#include "modules/defapp/defaultappsmodule.h"
-#include "modules/update/mirrorswidget.h"
 #include "widgets/multiselectlistview.h"
 #include "mainwindow.h"
 #include "insertplugin.h"
@@ -310,52 +289,12 @@ void MainWindow::initAllModule(const QString &m)
         return;
 
     m_bInit = true;
-    using namespace sync;
-    using namespace unionid;
-    using namespace datetime;
-    using namespace defapp;
-    using namespace network;
-    using namespace display;
-    using namespace touchscreen;
-    using namespace accounts;
-    using namespace mouse;
-    using namespace bluetooth;
-    using namespace sound;
-    using namespace personalization;
-    using namespace power;
-    using namespace update;
-    using namespace keyboard;
-    using namespace wacom;
-    using namespace systeminfo;
-    using namespace commoninfo;
-    using namespace notification;
 
     QString idType = "Union ID";
     if (DSysInfo::isCommunityEdition())
         idType = "Deepin ID";
 
     m_modules = {
-        { new AccountsModule(this), tr("Accounts")},
-        // 原union ID 暂时隐藏
-        // { new UnionidModule(this), "Union ID"},
-        //~ contents_path /cloudsync/Cloud Sync
-        { new SyncModule(this), DSysInfo::isCommunityEdition() ? "Deepin ID" : "Union ID"},
-        { new DisplayModule(this), tr("Display")},
-        { new TouchscreenModule(this), tr("Touch Screen")},
-        { new DefaultAppsModule(this), tr("Default Applications")},
-        { new PersonalizationModule(this), tr("Personalization")},
-        { new NetworkModule(this), tr("Network")},
-        { new NotificationModule(this), tr("Notification")},
-        { new SoundModule(this), tr("Sound")},
-        { new BluetoothModule(this), tr("Bluetooth")},
-        { new DatetimeModule(this), tr("Date and Time")},
-        { new PowerModule(this), tr("Power")},
-        { new MouseModule(this), tr("Mouse")},
-        { new WacomModule(this), tr("Drawing Tablet")},
-        { new KeyboardModule(this), tr("Keyboard and Language")},
-        { new UpdateModule(this), tr("Updates")},
-        { new SystemInfoModule(this), tr("System Info")},
-        { new CommonInfoModule(this), tr("General Settings")},
     };
 
     //读取加载一级菜单的插件

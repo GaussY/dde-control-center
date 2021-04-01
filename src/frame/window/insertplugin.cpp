@@ -39,48 +39,59 @@ InsertPlugin::InsertPlugin(QObject *obj, FrameProxyInterface *frameProxy)
         return;
     }
 
-    auto moduleList = moduleDir.entryInfoList();
-    for (auto i : moduleList) {
-        QString path = i.absoluteFilePath();
+    auto pushModule = [=](const QFileInfoList list, bool isSystem) {
+        for (auto i : list) {
+            QString path = i.absoluteFilePath();
 
-        if (!QLibrary::isLibrary(path))
-            continue;
+            if (!QLibrary::isLibrary(path))
+                continue;
 
-        qDebug() << "loading module: " << i;
+            qDebug() << "loading module: " << i;
 
-        QPluginLoader loader(path);
-        const QJsonObject &meta = loader.metaData().value("MetaData").toObject();
-        if (!compareVersion(meta.value("api").toString(), "1.0.0")) {
-            qDebug() << "plugin's version is too low";
-            continue;
+            QPluginLoader loader(path);
+            if (!isSystem) {
+                const QJsonObject &meta = loader.metaData().value("MetaData").toObject();
+                if (!compareVersion(meta.value("api").toString(), "1.0.0")) {
+                    qDebug() << "plugin's version is too low";
+                    continue;
+                }
+            }
+
+            QObject *instance = loader.instance();
+            if (!instance) {
+                qDebug() << loader.errorString();
+                continue;
+            }
+
+            instance->setParent(obj);
+
+            auto *module = qobject_cast<ModuleInterface *>(instance);
+            if (!module) {
+                return;
+            }
+            qDebug() << "load plugin Name;" << module->name() << module->displayName();
+            module->setFrameProxy(frameProxy);
+
+            if (module->follow() != MAINWINDOW && !isSystem) {
+                frameProxy->setSearchPath(module);
+            }
+
+            Plugin plugin;
+            plugin.path = module->path();
+            plugin.follow = module->follow();
+            plugin.enabled = module->enabled();
+
+            m_allModules.push_back({plugin, {instance, module->name()}});
         }
+    };
 
-        QObject *instance = loader.instance();
-        if (!instance) {
-            qDebug() << loader.errorString();
-            continue;
-        }
+    pushModule(moduleDir.entryInfoList(), false);
 
-        instance->setParent(obj);
-
-        auto *module = qobject_cast<ModuleInterface *>(instance);
-        if (!module) {
-            return;
-        }
-        qDebug() << "load plugin Name;" << module->name() << module->displayName();
-        module->setFrameProxy(frameProxy);
-
-        if (module->follow() != MAINWINDOW) {
-            frameProxy->setSearchPath(module);
-        }
-
-        Plugin plugin;
-        plugin.path = module->path();
-        plugin.follow = module->follow();
-        plugin.enabled = module->enabled();
-
-        m_allModules.push_back({plugin, {instance, module->name()}});
+    QString pluginsDir(qApp->applicationDirPath() + "/../../plugins");
+    if (!QDir(pluginsDir).exists()) {
+        pluginsDir = "/usr/lib/dde-control-center/system-module";
     }
+    pushModule(QDir(pluginsDir).entryInfoList(QDir::Files), true);
 }
 
 bool InsertPlugin::needPushPlugin(QString moduleName)

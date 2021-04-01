@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "searchwidget.h"
-#include "window/utils.h"
-#include "window/gsettingwatcher.h"
+#include "../utils.h"
+#include "../gsettingwatcher.h"
 #include "interface/moduleinterface.h"
 
 #include <DPinyin>

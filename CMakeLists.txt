@@ -44,6 +44,7 @@ add_subdirectory("src/frame")
 add_subdirectory("src/reboot-reminder-dialog")
 add_subdirectory("src/develop-tool")
 add_subdirectory("tests")
+add_subdirectory("plugins")
 
 if (NOT DEFINED DISABLE_RECOVERY)
     add_subdirectory("abrecovery")

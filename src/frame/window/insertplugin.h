@@ -29,7 +29,7 @@
 #include <QJsonObject>
 
 #include "interface/moduleinterface.h"
-#include "window/utils.h"
+#include "utils.h"
 
 namespace DCC_NAMESPACE {
 
