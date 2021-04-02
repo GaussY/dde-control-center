@@ -90,6 +90,7 @@ void DisplayModule::active()
     connect(m_displayWidget, &DisplayWidget::requestShowRefreshRatePage,
             this, &DisplayModule::showRefreshRotePage);
     connect(m_displayWidget, &DisplayWidget::requestRotate, this, [ this ] {
+        qDebug() << "11111 DisplayWidget::requestRotate";
         windowUpdate();
         showRotate();
     });
@@ -491,6 +492,7 @@ void DisplayModule::showTouchRecognize()
 
 void DisplayModule::showRotate(Monitor *mon)
 {
+    qDebug() << "11111 begin DisplayModule::showRotate";
     RotateDialog *dialog = new RotateDialog(mon);
     dialog->setModel(m_displayModel);
 
@@ -525,4 +527,6 @@ void DisplayModule::showRotate(Monitor *mon)
     qApp->restoreOverrideCursor();
     QCursor::setPos(m_displayWidget->getRotateBtnPos());
     dialog->deleteLater();
+
+    qDebug() << "11111 end DisplayModule::showRotate";
 }

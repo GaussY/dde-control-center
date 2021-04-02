@@ -374,6 +374,7 @@ void DisplayWorker::onCreateConfigFinshed(QDBusPendingCallWatcher *w)
 #ifndef DCC_DISABLE_ROTATE
 void DisplayWorker::setMonitorRotate(Monitor *mon, const quint16 rotate)
 {
+    qDebug() << "11111 DisplayWorker::setMonitorRotate , name:" << mon->name() << ", path:" << mon->path();
     MonitorInter *inter = m_monitors.value(mon);
     Q_ASSERT(inter);
 
@@ -391,8 +392,10 @@ void DisplayWorker::setMonitorRotate(Monitor *mon, const quint16 rotate)
 void DisplayWorker::setMonitorRotateAll(const quint16 rotate)
 {
     qDebug() << rotate;
-    for (auto *mi : m_monitors)
+    for (auto *mi : m_monitors) {
+        qDebug() << "11111 DisplayWorker::setMonitorRotateAll , name:" << mi->name() << ", path:" << mi->path();
         mi->SetRotation(rotate).waitForFinished();
+    }
 
     qDebug() << m_displayInter.ApplyChanges().error();
 }
@@ -607,6 +610,7 @@ void DisplayWorker::setNightMode(const bool nightmode)
 
 void DisplayWorker::monitorAdded(const QString &path)
 {
+    qDebug() << "11111 monitorAdded" << path;
     MonitorInter *inter = new MonitorInter(DisplayInterface, path, QDBusConnection::sessionBus(), this);
     Monitor *mon = new Monitor(this);
 
@@ -706,6 +710,7 @@ void DisplayWorker::monitorAdded(const QString &path)
 
 void DisplayWorker::monitorRemoved(const QString &path)
 {
+    qDebug() << "11111 DisplayWorker::monitorRemoved" << path;
     Monitor *monitor = nullptr;
     for (auto it(m_monitors.cbegin()); it != m_monitors.cend(); ++it) {
         if (it.key()->path() == path) {
