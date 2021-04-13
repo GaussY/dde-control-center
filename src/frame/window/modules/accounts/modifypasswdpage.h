@@ -53,25 +53,34 @@ class ModifyPasswdPage : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ModifyPasswdPage(dcc::accounts::User *user, QWidget *parent = nullptr);
+    explicit ModifyPasswdPage(dcc::accounts::User *user, bool isCurrent = true, QWidget *parent = nullptr);
     ~ModifyPasswdPage();
     void initWidget();
     bool judgeTextEmpty(DPasswordEdit *edit);
     void clickSaveBtn();
     void onPasswordChangeFinished(const int exitCode, const QString &errorTxt);
+    void resetPassword(const QString &password, const QString &repeatPassword);
 
 protected:
     void showEvent(QShowEvent *event) override;
 
+private:
+    void resetPasswordFinished(const QString &errorText);
+
+
 Q_SIGNALS:
     void requestChangePassword(dcc::accounts::User *userInter, const QString &oldPassword, const QString &password, const QString &repeatPassword);
+    void requestResetPassword(dcc::accounts::User *userInter, const QString &password);
     void requestBack(DCC_NAMESPACE::accounts::AccountsWidget::ActionOption option = DCC_NAMESPACE::accounts::AccountsWidget::ClickCancel);
+    void requestSetPasswordHint(dcc::accounts::User *, const QString &);
 
 private:
     dcc::accounts::User *m_curUser;
     DTK_WIDGET_NAMESPACE::DPasswordEdit *m_oldPasswordEdit;
     DTK_WIDGET_NAMESPACE::DPasswordEdit *m_newPasswordEdit;
     DTK_WIDGET_NAMESPACE::DPasswordEdit *m_repeatPasswordEdit;
+    DTK_WIDGET_NAMESPACE::DLineEdit *m_passwordTipsEdit;
+    bool m_isCurrent;
 };
 
 }

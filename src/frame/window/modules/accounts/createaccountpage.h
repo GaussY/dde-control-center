@@ -82,6 +82,7 @@ protected:
 Q_SIGNALS:
     void requestCreateUser(const dcc::accounts::User *user);
     void requestBack(DCC_NAMESPACE::accounts::AccountsWidget::ActionOption option = DCC_NAMESPACE::accounts::AccountsWidget::ClickCancel);
+    void requestSetPasswordHint(dcc::accounts::User *, const QString &);
 
 public Q_SLOTS:
     void setCreationResult(dcc::accounts::CreationResult *result);
@@ -100,6 +101,7 @@ private:
     AvatarListWidget *m_avatarListWidget;
     DTK_WIDGET_NAMESPACE::DLineEdit *m_nameEdit;
     DTK_WIDGET_NAMESPACE::DLineEdit *m_fullnameEdit;
+    DTK_WIDGET_NAMESPACE::DLineEdit *m_passwdTipsEdit;
     DTK_WIDGET_NAMESPACE::DPasswordEdit *m_passwdEdit;
     DTK_WIDGET_NAMESPACE::DPasswordEdit *m_repeatpasswdEdit;
     DTK_WIDGET_NAMESPACE::DComboBox *m_accountChooser;

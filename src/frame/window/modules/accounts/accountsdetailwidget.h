@@ -74,7 +74,7 @@ class AccountsDetailWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit AccountsDetailWidget(dcc::accounts::User *user, QWidget *parent = nullptr);
+    explicit AccountsDetailWidget(dcc::accounts::User *user, dcc::accounts::UserModel *model, QWidget *parent = nullptr);
     virtual ~AccountsDetailWidget();
     void initHeadPart(QVBoxLayout *headLayout);
     void initBodyPart(QVBoxLayout *bodyLayout);
@@ -136,6 +136,7 @@ private:
     DWarningButton *m_deleteAccount;
     QPushButton *m_modifyPassword;
     QGSettings *m_gsettings;
+    dcc::accounts::User *m_curLoginUser;
 };
 
 }   // namespace accounts

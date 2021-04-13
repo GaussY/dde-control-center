@@ -67,6 +67,9 @@ public:
     void setPresetGroups(const QStringList &presetGroups);
     QStringList getPresetGroups();
     inline int getAdminCnt() const { return m_adminCnt; }
+    QString getCurrentUserName() const;
+    void setCurrentUserName(const QString &currentUserName);
+
 Q_SIGNALS:
     void userAdded(User *user);
     void userRemoved(User *user);
@@ -91,6 +94,7 @@ private:
 #ifdef DCC_ENABLE_ADDOMAIN
     bool m_isJoinADDomain;
     bool m_isADUserLogind;
+    QString m_currentUserName;
 #endif
 };
 
