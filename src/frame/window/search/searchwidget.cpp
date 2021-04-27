@@ -155,6 +155,7 @@ SearchModel::SearchModel(QObject *parent)
         {tr("TrackPoint"), "TrackPoint"},
         {tr("Personal Hotspot"), "Personal Hotspot"},
         {tr("On Battery"), "On Battery"},
+        {tr("Plugged In"), "Plugged In"},
         {tr("Wired Network"), "Wired Network"},
         {tr("Wireless Network"), "WirelessPage"},
         {tr("Multiple Displays"), "Multiple Displays"},

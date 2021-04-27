@@ -426,6 +426,10 @@ void MainWindow::initAllModule(const QString &m)
     m_searchWidget->setRemoveableDeviceStatus(tr("Touchpad"), getRemoveableDeviceStatus(tr("Touchpad")));
     m_searchWidget->setRemoveableDeviceStatus(tr("TrackPoint"), getRemoveableDeviceStatus(tr("TrackPoint")));
 
+    QGSettings gs(ControlCenterGSettings, QByteArray(), this);
+    gs.set(GSettinsWindowWidth, width());
+    m_searchWidget->setRemoveableDeviceStatus(tr("Plugged In"), gs.get("plugin-in").toBool());
+
     QElapsedTimer et;
     et.start();
     //after initAllModule to load ts data
