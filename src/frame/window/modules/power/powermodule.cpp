@@ -85,9 +85,11 @@ void PowerModule::active()
     m_widget = new PowerWidget;
     m_widget->setVisible(false);
 
-    m_widget->initialize(m_model->haveBettary());
-
     m_powerSetting = new QGSettings("com.deepin.dde.control-center", QByteArray(), this);
+
+    bool pluginInVisible = m_powerSetting->get("plugin-in").toBool();
+    m_widget->initialize(m_model->haveBettary(), pluginInVisible);
+
     m_isSuspend = m_powerSetting->get(GSETTING_SHOW_SUSPEND).toBool();
     m_model->setSuspend(m_isSuspend && m_model->canSleep());
 
@@ -98,7 +100,9 @@ void PowerModule::active()
     connect(m_model, &PowerModel::batteryPercentageChanged, this, &PowerModule::onBatteryPercentageChanged);
     connect(m_widget, &PowerWidget::requestShowGeneral, this, &PowerModule::showGeneral);
     connect(m_widget, &PowerWidget::requestShowUseBattery, this, &PowerModule::showUseBattery);
-    connect(m_widget, &PowerWidget::requestShowUseElectric, this, &PowerModule::showUseElectric);
+    if (pluginInVisible) {
+        connect(m_widget, &PowerWidget::requestShowUseElectric, this, &PowerModule::showUseElectric);
+    }
 
     m_frameProxy->pushWidget(this, m_widget);
     m_widget->setVisible(true);

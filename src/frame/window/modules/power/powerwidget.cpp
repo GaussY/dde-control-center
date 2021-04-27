@@ -49,7 +49,7 @@ PowerWidget::~PowerWidget()
 
 }
 
-void PowerWidget::initialize(bool hasBattery)
+void PowerWidget::initialize(bool hasBattery, bool pluginVisible)
 {
     m_bhasBattery = hasBattery;
 
@@ -88,9 +88,11 @@ void PowerWidget::initialize(bool hasBattery)
     m_listview->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_listview->setViewportMargins(ScrollAreaMargins);
     m_listview->setIconSize(ListViweIconSize);
-    if (!IsServerSystem)
+    if (!IsServerSystem) {
+        m_listview->setRowHidden(1, !pluginVisible);
         m_listview->setRowHidden(2, !hasBattery);
-    else {
+    } else {
+        m_listview->setRowHidden(0, !pluginVisible);
         m_listview->setRowHidden(1, !hasBattery);
     }
 

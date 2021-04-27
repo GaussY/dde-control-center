@@ -46,7 +46,7 @@ public:
     explicit PowerWidget(QWidget *parent = nullptr);
     virtual ~PowerWidget();
 
-    void initialize(bool hasBattery);
+    void initialize(bool hasBattery, bool pluginVisible = true);
     void setModel(const dcc::power::PowerModel *model);
     DTK_WIDGET_NAMESPACE::DListView *getListViewPointer();
     bool getIsUseBattety();
