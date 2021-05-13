@@ -332,8 +332,14 @@ void CreateAccountPage::showEvent(QShowEvent *event)
 void CreateAccountPage::createUser()
 {
     //校验输入的用户名和密码
-    if (!checkName() || !checkFullname() || !checkPassword(m_repeatpasswdEdit) || !checkPassword(m_passwdEdit)) {
+    if (!checkName() || !checkFullname()) {
         return;
+    }
+
+    if (m_repeatpasswdEdit->text().isEmpty()) {
+            m_repeatpasswdEdit->setAlert(true);
+            m_repeatpasswdEdit->showAlertMessage(tr("密码不能为空"), this->parentWidget(), 2000);
+            return;
     }
 
     //如果用户没有选图像
