@@ -33,6 +33,7 @@ BuildRequires:  gtest-devel
 BuildRequires:  polkit-qt5-1-devel
 BuildRequires:  deepin-pw-check
 BuildRequires:  deepin-pw-check-devel
+BuildRequires:  qt5-qtbase-private-devel
 Requires:       dde-account-faces
 Requires:       dde-api
 Requires:       dde-daemon
