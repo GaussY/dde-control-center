@@ -520,8 +520,12 @@ void MainWindow::popWidget(ModuleInterface *const inter)
 {
     Q_UNUSED(inter)
 
-    popWidget();
-    resetNavList(m_contentStack.isEmpty());
+    QTimer::singleShot(0, this, [=] {
+        popWidget();
+        resetNavList(m_contentStack.isEmpty());
+    });
+//    popWidget();
+//    resetNavList(m_contentStack.isEmpty());
 }
 
 void MainWindow::showModulePage(const QString &module, const QString &page, bool animation)
