@@ -476,7 +476,10 @@ void MainWindow::modulePreInitialize(const QString &m)
 void MainWindow::popWidget()
 {
     if (m_topWidget) {
-        m_topWidget->deleteLater();
+        QTimer::singleShot(0, this, [=] {
+            m_topWidget->deleteLater();
+        });
+//        m_topWidget->deleteLater();
         m_topWidget = nullptr;
         return;
     }
@@ -487,7 +490,10 @@ void MainWindow::popWidget()
 
     m_rightContentLayout->removeWidget(w);
     w->setParent(nullptr);
-    w->deleteLater();
+    QTimer::singleShot(0, this, [=] {
+        w->deleteLater();
+    });
+//    w->deleteLater();
 
     //delete replace widget : first delete replace widget(up code) , then pass pushWidget to set last widget
     if (m_lastThirdPage.second) {
@@ -520,12 +526,8 @@ void MainWindow::popWidget(ModuleInterface *const inter)
 {
     Q_UNUSED(inter)
 
-    QTimer::singleShot(0, this, [=] {
-        popWidget();
-        resetNavList(m_contentStack.isEmpty());
-    });
-//    popWidget();
-//    resetNavList(m_contentStack.isEmpty());
+    popWidget();
+    resetNavList(m_contentStack.isEmpty());
 }
 
 void MainWindow::showModulePage(const QString &module, const QString &page, bool animation)
